@@ -2,14 +2,18 @@
 import Registration from "./Components/Registration";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserData from "./Components/UserData";
+import { GlobalState } from "./Components/Contex/GlobalContext";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element={<Registration />} />
-        <Route path="/userdata" element={<UserData />} />
-      </Routes>
+      <GlobalState>
+        <Routes>
+          <Route path="/" exact element={<Registration />} />
+          <Route path="/home/:id" exact element={<Registration />} />
+          <Route path="/userdata" element={<UserData />} />
+        </Routes>
+      </GlobalState>
     </BrowserRouter>
   );
 }

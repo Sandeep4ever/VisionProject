@@ -1,15 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Header from "./Header";
+import GlobalContext from "./Contex/GlobalContext";
+import { useNavigate } from "react-router-dom";
 
 const UserData = () => {
   const [userData, setuserData] = useState([]);
+  const { submitType, setsubmitType } = useContext(GlobalContext);
+  console.log(submitType, "typ");
   useEffect(() => {
     const getData = async () => {
       let res = await axios(
         "https://student-api.mycodelibraries.com/api/user/get"
       );
-
       console.log(res.data.data);
       setuserData(
         res.data.data && res.data.data.length > 0 ? res.data.data : []
@@ -33,7 +36,14 @@ const UserData = () => {
       });
     setuserData(userData.filter((user) => user._id !== id));
   };
-  console.log(userData, "user");
+  let navigate = useNavigate();
+  const handleEdit = (id) => {
+    setsubmitType("Update");
+    navigate(`/home/${id}`);
+    console.log(id);
+  };
+
+  // console.log(userData, "user");
   return (
     <div className="container ">
       <Header />
@@ -57,7 +67,10 @@ const UserData = () => {
                 <p className="card-text">City : {item.city}</p>
               </div>
               <div className="d-flex justify-content-between">
-                <button className="btn btn-primary">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleEdit(item._id)}
+                >
                   <i className="bi bi-pencil-square"></i>
                 </button>
                 <button

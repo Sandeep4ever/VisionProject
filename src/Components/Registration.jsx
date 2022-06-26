@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Card, CardBody, CardHeader } from "reactstrap";
 import axios from "axios";
 import Header from "./Header";
+import GlobalContext from "./Contex/GlobalContext";
+import { useParams, useNavigate } from "react-router-dom";
+
 const Registration = () => {
+  const { submitType } = useContext(GlobalContext);
+  const [isDataFetched, setIsDataFetched] = useState(false);
   const [userInputData, setUserInputData] = useState({
     firstName: "",
     lastName: "",
@@ -12,6 +17,10 @@ const Registration = () => {
     userImage: "",
     hobbies: ["yoga"],
   });
+  useEffect(() => {
+    console.log("reg page");
+  }, []);
+  const navigate = useNavigate();
   const handleInputData = (e) => {
     setUserInputData({
       ...userInputData,
@@ -62,6 +71,52 @@ const Registration = () => {
         console.log(err);
       });
   };
+  const { id } = useParams();
+  const getUserDataById = () => {
+    axios
+      .get(
+        `https://student-api.mycodelibraries.com/api/user/get-user-by-id?id=${id}`
+      )
+      .then((res) => {
+        console.log(res.data.data, "updatadatafill");
+        setUserInputData(res.data.data);
+        setIsDataFetched(true);
+      })
+      .catch((error) => console.log(error));
+  };
+  if (!id) {
+  } else {
+    console.log("id: ", id);
+    if (!isDataFetched) {
+      getUserDataById();
+    }
+  }
+
+  const handleUpdatedData = (id) => {
+    userInputData["id"] = id;
+    const { firstName, lastName, age, gender, city, userImage, hobbies } =
+      userInputData;
+    axios
+      .post("https://student-api.mycodelibraries.com/api/user/update", {
+        firstName,
+        lastName,
+        age,
+        gender,
+        city,
+        userImage,
+        hobbies,
+        id,
+      })
+
+      .then((res) => {
+        console.log(res, "updateddata");
+        alert("Data updated successfully!");
+        navigate("/userdata");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="container">
@@ -69,7 +124,7 @@ const Registration = () => {
       <Card>
         <CardHeader className="text-center pb-0">Registration Form</CardHeader>
         <CardBody>
-          <form className="row g-3" onSubmit={handleSubmit}>
+          <form className="row g-3">
             <div className="col-12">
               <label className="form-label">First name</label>
               <input
@@ -226,9 +281,22 @@ const Registration = () => {
             </div>
 
             <div className="col-12">
-              <button className="btn btn-primary" type="submit">
-                Submit form
-              </button>
+              {submitType === "Update" ? (
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleUpdatedData(id)}
+                >
+                  Update
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  type="submit"
+                  onSubmit={handleSubmit}
+                >
+                  Submit form
+                </button>
+              )}
             </div>
           </form>
         </CardBody>

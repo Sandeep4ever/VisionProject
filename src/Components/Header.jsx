@@ -1,46 +1,60 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import GlobalState from "./Contex/GlobalContext";
 const Header = () => {
+  const { submitType } = useContext(GlobalState);
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        {/* <a className="navbar-brand" href="#">
-          Navbar w/ text
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarText"
-          aria-controls="navbarText"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button> */}
-        <div className="collapse navbar-collapse" id="navbarText">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              {/* <a className="nav-link" href="#">
-                Home
-              </a> */}
-              <Link to="/">Home</Link>
-            </li>
-            <li className="nav-item ml-5">
-              {/* <a className="nav-link" href="#">
-                User Data
-              </a> */}
-              <Link to="/userdata"> User Data</Link>
-            </li>
-            {/* <li className="nav-item">
-              <a className="nav-link" href="#">
-                Pricing
-              </a>
-            </li> */}
-          </ul>
-          {/* <span className="navbar-text">
-            Navbar text with an inline element
-          </span> */}
+      <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="container">
+          <button
+            class="navbar-toggler bg-light collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="navbar-collapse collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto ">
+              {/* <li class="nav-item">
+                {submitType === "Update" ? (
+                  <Link
+                    to="/home/:id"
+                    class="nav-link active  me='2'  active"
+                    aria-current="page"
+                  >
+                    <span class="home"> Home</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to="/"
+                    class="nav-link active  me='2'  active"
+                    aria-current="page"
+                  >
+                    <span class="home"> Home</span>
+                  </Link>
+                )}
+              </li> */}
+              <li>
+                <Link
+                  to="/"
+                  class="nav-link active  me='2'  active"
+                  aria-current="page"
+                >
+                  <span class="home"> Home</span>
+                </Link>
+              </li>
+              <li class="nav-item">
+                <Link to="/userdata" class="nav-link ">
+                  <span class="home"> User Data</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
     </>
