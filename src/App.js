@@ -11,7 +11,7 @@ function App() {
       <GlobalState>
         <Routes>
           <Route path="/" exact element={<Registration />} />
-          <Route path="/home/:id" exact element={<Registration />} />
+          {/* <Route path="/home/:id" exact element={<Registration />} /> */}
           <Route path="/update/:id" exact element={<Update />} />
           <Route path="/userdata" element={<UserData />} />
         </Routes>

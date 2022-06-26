@@ -8,10 +8,10 @@ const Header = () => {
   };
   return (
     <>
-      <nav class="navbar navbar-expand-lg navbar-light ">
-        <div class="container">
+      <nav className="navbar navbar-expand-lg navbar-light ">
+        <div className="container">
           <button
-            class="navbar-toggler bg-light collapsed"
+            className="navbar-toggler bg-light collapsed"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
@@ -19,23 +19,23 @@ const Header = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="navbar-collapse collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto ">
+          <div className="navbar-collapse collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto ">
               <li>
                 <Link
                   to="/"
-                  class="nav-link active  me='2'  active"
+                  className="nav-link active  me='2' fw-bold active"
                   aria-current="page"
                   onClick={handleHomeButton}
                 >
-                  <span class="home"> Home</span>
+                  <span className="home"> Home</span>
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link to="/userdata" class="nav-link ">
-                  <span class="home"> User Data</span>
+              <li className="nav-item">
+                <Link to="/userdata" className="nav-link fw-bold  ">
+                  <span className="home"> User Data</span>
                 </Link>
               </li>
             </ul>

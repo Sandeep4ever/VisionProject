@@ -7,7 +7,6 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const Registration = () => {
   const { submitType } = useContext(GlobalContext);
-  const [isDataFetched, setIsDataFetched] = useState(false);
   const [userInputData, setUserInputData] = useState({
     firstName: "",
     lastName: "",
@@ -18,7 +17,7 @@ const Registration = () => {
     hobbies: ["yoga"],
   });
 
-  const navigate = useNavigate();
+  let navigate = useNavigate();
   const handleInputData = (e) => {
     setUserInputData({
       ...userInputData,
@@ -40,13 +39,16 @@ const Registration = () => {
       userInputData.hobbies.push(evt.target.value);
     }
     if (!evt.target.checked) {
-      userInputData.hobbies = userInputData.hobbies.filter(
-        (el) => el !== evt.target.value
-      );
+      if (userInputData.hobbies && userInputData.hobbies.length) {
+        userInputData.hobbies = userInputData.hobbies.filter(
+          (el) => el !== evt.target.value
+        );
+      }
     }
   };
 
   const handleSubmit = (e) => {
+    console.log(e, "summitdata");
     e.preventDefault();
     console.log(userInputData);
     const requestJSON = {
@@ -63,7 +65,18 @@ const Registration = () => {
     axios
       .post("https://student-api.mycodelibraries.com/api/user/add", requestJSON)
       .then((res) => {
-        console.log(res);
+        console.log(res, "data submitted");
+        alert("User added successfully");
+        navigate("/userdata");
+        setUserInputData({
+          firstName: "",
+          lastName: "",
+          age: 0,
+          gender: "",
+          city: "",
+          userImage: "",
+          hobbies: ["yoga"],
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -78,17 +91,14 @@ const Registration = () => {
       .then((res) => {
         console.log(res.data.data, "updatadatafill");
         setUserInputData(res.data.data);
-        setIsDataFetched(true);
       })
       .catch((error) => console.log(error));
   };
-  if (!id) {
-  } else {
-    console.log("id: ", id);
-    if (!isDataFetched) {
+  useEffect(() => {
+    if (submitType === "Update") {
       getUserDataById();
     }
-  }
+  }, [submitType]);
 
   const handleUpdatedData = (id) => {
     userInputData["id"] = id;
@@ -105,13 +115,10 @@ const Registration = () => {
         hobbies,
         id,
       })
-
       .then((res) => {
         console.log(res, "updateddata");
         alert("Data updated successfully!");
-        if (res.data && res.data.isSuccess) {
-          navigate("/userdata");
-        }
+        navigate("/userdata");
       })
       .catch((err) => {
         console.log(err);
@@ -126,7 +133,7 @@ const Registration = () => {
           {submitType === "Update" ? "Updation Form" : "Registration Form"}
         </CardHeader>
         <CardBody>
-          <form className="row g-3">
+          <div className="row g-3">
             <div className="col-12">
               <label className="form-label">First name</label>
               <input
@@ -210,6 +217,7 @@ const Registration = () => {
                     name="gender"
                     id="flexRadioDefault1"
                     value="Female"
+                    checked={userInputData.gender === "Female"}
                     onChange={handleInputData}
                   />
                   <label
@@ -226,6 +234,7 @@ const Registration = () => {
                     name="gender"
                     id="flexRadioDefault2"
                     value="Male"
+                    checked={userInputData.gender === "Male"}
                     onChange={handleInputData}
                   />
                   <label
@@ -239,7 +248,6 @@ const Registration = () => {
             </div>
             <div className="col-md-3">
               <label className="form-label">City</label>
-              {/* is-invalid   */}
               <select
                 name="city"
                 className="form-select"
@@ -247,7 +255,7 @@ const Registration = () => {
                 aria-describedby="validationServer04Feedback"
                 onChange={handleInputData}
                 required
-                defaultValue={""}
+                value={userInputData.city ?? ""}
               >
                 <option disabled value="">
                   Choose...
@@ -262,13 +270,9 @@ const Registration = () => {
                 <option value="Surat">Surat</option>
                 <option value="Pune">Pune</option>
               </select>
-              {/* <div id="validationServer04Feedback" className="invalid-feedback">
-                Please select a valid state.
-              </div> */}
             </div>
             <div className="col-md-3">
               <label className="form-label">Image</label>
-              {/* is-invalid */}
               <input
                 type="file"
                 className="form-control"
@@ -277,9 +281,6 @@ const Registration = () => {
                 aria-describedby="validationServer05Feedback"
                 onChange={handleInputData}
               />
-              {/* <div id="validationServer05Feedback" className="invalid-feedback">
-                Please provide a valid zip.
-              </div> */}
             </div>
 
             <div className="col-12">
@@ -294,13 +295,13 @@ const Registration = () => {
                 <button
                   className="btn btn-primary"
                   type="submit"
-                  onSubmit={handleSubmit}
+                  onClick={handleSubmit}
                 >
                   Submit form
                 </button>
               )}
             </div>
-          </form>
+          </div>
         </CardBody>
       </Card>
     </div>
