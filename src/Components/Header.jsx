@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import GlobalState from "./Contex/GlobalContext";
 const Header = () => {
-  const { submitType } = useContext(GlobalState);
+  const { setsubmitType } = useContext(GlobalState);
+  const handleHomeButton = () => {
+    setsubmitType("");
+  };
   return (
     <>
       <nav class="navbar navbar-expand-lg navbar-light ">
@@ -20,30 +23,12 @@ const Header = () => {
           </button>
           <div class="navbar-collapse collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto ">
-              {/* <li class="nav-item">
-                {submitType === "Update" ? (
-                  <Link
-                    to="/home/:id"
-                    class="nav-link active  me='2'  active"
-                    aria-current="page"
-                  >
-                    <span class="home"> Home</span>
-                  </Link>
-                ) : (
-                  <Link
-                    to="/"
-                    class="nav-link active  me='2'  active"
-                    aria-current="page"
-                  >
-                    <span class="home"> Home</span>
-                  </Link>
-                )}
-              </li> */}
               <li>
                 <Link
                   to="/"
                   class="nav-link active  me='2'  active"
                   aria-current="page"
+                  onClick={handleHomeButton}
                 >
                   <span class="home"> Home</span>
                 </Link>

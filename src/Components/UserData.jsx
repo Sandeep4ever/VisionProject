@@ -39,7 +39,7 @@ const UserData = () => {
   let navigate = useNavigate();
   const handleEdit = (id) => {
     setsubmitType("Update");
-    navigate(`/home/${id}`);
+    navigate(`/update/${id}`);
     console.log(id);
   };
 

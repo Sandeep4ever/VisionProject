@@ -17,9 +17,7 @@ const Registration = () => {
     userImage: "",
     hobbies: ["yoga"],
   });
-  useEffect(() => {
-    console.log("reg page");
-  }, []);
+
   const navigate = useNavigate();
   const handleInputData = (e) => {
     setUserInputData({
@@ -111,7 +109,9 @@ const Registration = () => {
       .then((res) => {
         console.log(res, "updateddata");
         alert("Data updated successfully!");
-        navigate("/userdata");
+        if (res.data && res.data.isSuccess) {
+          navigate("/userdata");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -122,7 +122,9 @@ const Registration = () => {
     <div className="container">
       <Header />
       <Card>
-        <CardHeader className="text-center pb-0">Registration Form</CardHeader>
+        <CardHeader className="text-center pb-0">
+          {submitType === "Update" ? "Updation Form" : "Registration Form"}
+        </CardHeader>
         <CardBody>
           <form className="row g-3">
             <div className="col-12">
